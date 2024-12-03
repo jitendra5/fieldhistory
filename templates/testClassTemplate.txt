@@ -1,0 +1,17 @@
+/*
+*  Deployed using Audit API.
+**/
+@isTest
+private class TestClassName {
+ @isTest
+ private static void processTest() {
+ Test.startTest();
+ 
+ AuditHistoryTracker__c at = new AuditHistoryTracker__c();
+        at.FieldAPI__c ='filedName';
+        at.SobjectAPI__c ='sObjectName';
+        insert at;
+ dynamicCode
+ Test.stopTest();
+ }
+ }

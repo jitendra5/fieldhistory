@@ -1,0 +1,67 @@
+/*
+*  Deployed using Audit API.
+**/
+@isTest
+private class Object0 {
+ @isTest
+ private static void processTest() {
+ Test.startTest();
+ Object10__c PIyA = new Object10__c ();
+PIyA.Name = 'obj10';
+insert PIyA;
+
+Object9__c SvMo = new Object9__c ();
+SvMo.Name = 'obj9';
+SvMo.Object10__c = PIyA.Id;
+insert SvMo;
+
+Object8__c fSYz = new Object8__c ();
+fSYz.Name = 'obj8';
+fSYz.Object9__c = SvMo.Id;
+insert fSYz;
+
+Object7__c cdlB = new Object7__c ();
+cdlB.Name = 'obj7';
+cdlB.Object8__c = fSYz.Id;
+insert cdlB;
+
+Object6__c awqh = new Object6__c ();
+awqh.Name = 'obj6';
+awqh.Object7__c = cdlB.Id;
+insert awqh;
+
+Object5__c nBTD = new Object5__c ();
+nBTD.Name = 'obj5';
+nBTD.Object6__c = awqh.Id;
+insert nBTD;
+
+Object4__c nHNy = new Object4__c ();
+nHNy.Name = 'obj4';
+nHNy.Object5__c = nBTD.Id;
+insert nHNy;
+
+Object3__c WAYJ = new Object3__c ();
+WAYJ.Name = 'obj3';
+WAYJ.Object4__c = nHNy.Id;
+insert WAYJ;
+
+Object2__c ynPS = new Object2__c ();
+ynPS.Name = 'obj2';
+ynPS.Object3__c = WAYJ.Id;
+insert ynPS;
+
+Object1__c ecPZ = new Object1__c ();
+ecPZ.Name = 'obj1';
+ecPZ.Object2__c = ynPS.Id;
+insert ecPZ;
+
+ AuditHistoryTracker__c at = new AuditHistoryTracker__c();
+        at.FieldAPI__c ='Name';
+        at.SobjectAPI__c ='Account';
+        insert at;
+ Account a = new Account();
+ a.name='abc';
+ insert a;
+ Test.stopTest();
+ }
+ }
