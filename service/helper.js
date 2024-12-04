@@ -37,6 +37,43 @@ module.exports = {
             archive.finalize();
         });
     },
+    getSalesforceAccessToken : async function(creds,request){
+        //const myHeaders = new Headers();
+        //myHeaders.append("Cookie", "BrowserId=AbHvaA39Ee-dMYOqR4NQ2Q; CookieConsentPolicy=0:1; LSKey-c$CookieConsentPolicy=0:1");
+        return new Promise((resolve,reject)=>{
+            /*const requestOptions = {
+                method: "GET",
+                //headers: myHeaders,
+                //redirect: "follow"
+                };
+                fetch(url, requestOptions)
+                .then((response) => response.text())
+                .then((result) => {console.log(result);resolve(result)})
+                .catch((error) => {console.error(error);reject(error);});*/
+                let url ='https://cereblis--partialsb.sandbox.my.salesforce.com/services/oauth2/token?grant_type=client_credentials&client_id='+creds.credentials.clientId+'&client_secret='+creds.credentials.clientSecret;
+                
+                var options = {
+                'method': 'GET',
+                'url': url,
+                'headers': {
+                    //'Cookie': 'BrowserId=AbHvaA39Ee-dMYOqR4NQ2Q; CookieConsentPolicy=0:1; LSKey-c$CookieConsentPolicy=0:1'
+                }
+                };
+                request(options, function (error, response) {
+                if (error) {
+                    console.log('error');
+                    resolve(error);
+                }
+                if(response){
+                    console.log('response');
+                    resolve(response);
+                }
+                
+                });
+
+        })
+        
+    },
     createMetadataZip: async function (fs,tempDirectory,path,archiver,triggerDirectory,apexDirectory) {
         if (!fs.existsSync(tempDirectory)) {
             fs.mkdirSync(tempDirectory);

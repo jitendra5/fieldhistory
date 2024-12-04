@@ -12,6 +12,8 @@
     "archiver": "^7.0.1",
     "express": "^4.21.1",
     "jsforce": "^3.6.2",
+    "node-fetch": "^3.3.2",
+    "request": "^2.88.2",
     "save": "^2.9.0"
   }
 }

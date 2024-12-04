@@ -1,24 +1,55 @@
 const express = require('express'); 
 const app = express();              
-const port = 5023;                 
+const port =  process.env.PORT || 5023;                 
 const creds = require('./creds');
 const fs = require('fs');
 const path = require('path');
 const archiver = require('archiver');
 const jsforce = require('jsforce');
 var service = require('./service/helper');
+var request = require('request');
 
+app.get('/test', async (req, res) => {
+    let tokenData = await service.getSalesforceAccessToken(creds,request);
+    console.log('tokenData::','tokenData');
+    fs.appendFileSync('./temp1.json', '42::'+'---------Level 1--------'+ '\n'+JSON.stringify(tokenData));
+    let instanceUrl =JSON.parse(tokenData['body'])['instance_url'];
+    let access_token = JSON.parse(tokenData['body'])['access_token'];
+    console.log('instanceUrl::',instanceUrl);
+    console.log('access_token::',access_token);
+    const conn = new jsforce.Connection({
+        instanceUrl : instanceUrl,
+        accessToken : access_token,
+        });
+      //console.log('userInfo::',userInfo);
+    const meta = await conn.sobject('Account').describe();
+    console.log('meta::',meta);
+    res.json(tokenData);
+
+})
 app.get('/deploy', async (req, res) => {      
     const conn = new jsforce.Connection({
         loginUrl: creds.credentials.loginUrl
     });
 
     try {
+        //Consumer Key:	3MVG9ZUGg10Hh224lHMMYUSxknoofYZWGYcv8JBhVwNOzIDu0qtmwoLd1N0FTzTLxzspS0bhO0g4If_CPitng
+        //Consumer Secret: 0F7534C34426C09A578529C246F2643D010DD7047EA3C1915087DD88A4FCEB65
+        //cereblis--partialsb.sandbox.my.salesforce.com
+        //https://test.salesforce.com
         console.log('username::', creds.credentials.username);
         console.log('password::', creds.credentials.password);
-        await conn.login(creds.credentials.username, creds.credentials.password);
-        console.log('Connected to Salesforce');
-        const meta = await conn.sobject('Account').describe();
+        //await conn.login(creds.credentials.username, creds.credentials.password);
+        let tokenData = await service.getSalesforceAccessToken(creds,request);
+        let instanceUrl =JSON.parse(tokenData['body'])['instance_url'];
+        let access_token = JSON.parse(tokenData['body'])['access_token'];
+        console.log('instanceUrl::',instanceUrl);
+        console.log('access_token::',access_token);
+        const conn = new jsforce.Connection({
+            instanceUrl : instanceUrl,
+            accessToken : access_token,
+        });
+        //const meta = await conn.sobject('Account').describe();
         //console.log('meta::',meta);
         let txt_file =  fs.readFileSync('./templates/triggerTemplate.txt', 'utf8');
         console.log('txt_file::',txt_file);
