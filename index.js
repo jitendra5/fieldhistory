@@ -671,16 +671,16 @@ app.get('/deploy', async (req, res) => {
             console.log('Deployment completed successfully!');
             const directory1 = "./components/classes";
             const directory2 = "./components/triggers";
-            //fsExtra.emptyDirSync(directory1);
-            //fsExtra.emptyDirSync(directory2);
+            fsExtra.emptyDirSync(directory1);
+            fsExtra.emptyDirSync(directory2);
             //res.sendFile('index.html', {root: __dirname});  
             //res.render(__dirname + "index.html", {status:deploymentStatus, message :message});
             res.json({status:deploymentStatus});
         } else {
             const directory1 = "./components/classes";
             const directory2 = "./components/triggers";
-            //fsExtra.emptyDirSync(directory1);
-            //fsExtra.emptyDirSync(directory2);
+            fsExtra.emptyDirSync(directory1);
+            fsExtra.emptyDirSync(directory2);
             console.error('Deployment failed');
             //res.sendFile('index.html', {root: __dirname});  
             //res.render(__dirname + "index.html", {status:deploymentStatus, message :message});
