@@ -9,6 +9,16 @@ const jsforce = require('jsforce');
 var service = require('./service/helper');
 var request = require('request');
 const fsExtra = require('fs-extra');
+var AWS = require('aws-sdk');
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
+app.use(bodyParser.json());
+require('dotenv').config();
+
+//AWS.config.update({ region: 'us-east-2' });
+
 
 app.get('/test', async (req, res) => {
     let tokenData = await service.getSalesforceAccessToken(creds,request);
@@ -25,7 +35,7 @@ app.get('/test', async (req, res) => {
       //console.log('userInfo::',userInfo);
     //const meta = await conn.sobject('Account').describe();
     //console.log('meta::',meta);
-    const res1 = await conn.describeSObject('CTMS__Trip_Report_Template__c');
+    const res1 = await conn.describeSObject('CTMS__Action__c');
     //const res1 = await conn.sobject("FieldPermissions").find({ SObjectType: 'CTMS__Benefit__c', PermissionsEdit : true, PermissionsRead :true, 'Parent.Profile.Name' :'System Administrator' })
     console.log('res1::',res1);
             let fieldTypes = res1.fields.map(x=>x.type);
@@ -33,16 +43,163 @@ app.get('/test', async (req, res) => {
             let fieldsArr =[];
             for(let field of res1.fields){
                 if(field.updateable == true ){
-                    if( field.createable && field.name != 'OwnerId' && field.name !='CTMS__eDOA_Completion__c' )
+                    if( field.type != 'reference' && field.createable && field.name != 'OwnerId' && field.name !='CTMS__eDOA_Completion__c' )
                 {
                     let obj={}
                     obj['API'] = field.name;
                     obj['Type'] = field.type;
                     obj['Lable'] = field.label;
+                    obj['Updateable'] = field.updateable;
                     obj['ObjAPI'] = field.referenceTo;
                     if(!(field.referenceTo.includes("Organization") || field.referenceTo.includes("Profile") || field.referenceTo.includes("User")))
                         fieldsArr.push(obj);
                 }
+                if( field.type == 'reference'){
+                    if(sobject  =='CTMS__Action__c' && field.name =='CTMS__Rule__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Action_Dependency__c' && field.name =='CTMS__Action__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Data_Matrix_Column__c' && field.name =='CTMS__Data_Matrix__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Form_Library_Content__c' && field.name =='CTMS__Form_Library__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Form_Library_Data_Variable__c' && field.name =='CTMS__Form_Library_Content__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Form_Library_Dependency__c' && field.name =='CTMS__Form_Library_Content__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Form_Template_Content__c' && field.name =='CTMS__Form_Template__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Form_Template_Content_Dependency__c' && field.name =='CTMS__Form_Template_Content__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Form_Template_Data_Variable__c' && field.name =='CTMS__Form_Template_Content__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Form_Template_Version__c' && field.name =='CTMS__Form_Template__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Response_Set_Value__c' && field.name =='CTMS__Standard_Response_Set__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Role_Form_Field_Permission__c' && field.name =='CTMS__Role_Setup_Permission__c'){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Role_Form_Permission__c' && (field.name =='CTMS__Role_Setup_Permission__c'|| field.name=='CTMS__Form_Template__c')){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Role_Setup_Permission__c' && (field.name =='CTMS__Role__c')){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Study_Setup__c' && (field.name =='CTMS__Clinical_Study__c')){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Study_Team__c' && (field.name =='CTMS__Role__c')){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Subject__c' && (field.name =='CTMS__Site__c')){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                    if(sobject  =='CTMS__Subject_Stratification_Factor__c' && (field.name =='CTMS__Site__c')){
+                        let obj={}
+                        obj['API'] = field.name;
+                        obj['Type'] = field.type;
+                        obj['Lable'] = field.label;
+                        obj['ObjAPI'] = field.referenceTo;
+                        fieldsArr.push(obj);
+                    }
+                } 
             }
             else{
                 if(field.nillable== false && field.createable && field.name != 'OwnerId' && field.name !='CTMS__eDOA_Completion__c')
@@ -51,6 +208,7 @@ app.get('/test', async (req, res) => {
                         obj['API'] = field.name;
                         obj['Type'] = field.type;
                         obj['Lable'] = field.label;
+                        obj['Updateable'] = field.updateable;
                         obj['ObjAPI'] = field.referenceTo;
                         if(!(field.referenceTo.includes("Organization") || field.referenceTo.includes("Profile") || field.referenceTo.includes("User")))
                             fieldsArr.push(obj);
@@ -59,6 +217,43 @@ app.get('/test', async (req, res) => {
         }
     res.json(res1);
 
+})
+app.post('/save',async (req, res) => {
+    const SESConfig = {
+        apiVersion: "2010-12-01",
+        accessKeyId: req.query.id,
+        accessSecretKey: req.query.secret,
+        region: "us-east-2"
+    }
+    AWS.config.update(SESConfig);
+    var s3 = new AWS.S3({
+        accessKeyId: req.query.id,
+        secretAccessKey: req.query.secret
+    });
+    console.log('req.body::',req);
+    console.log('req.query.id::',req.query.id);
+    console.log('req.query.secret::',req.query.secret);
+    var buf = Buffer.from(JSON.stringify(req.body));
+    var datetime = new Date();
+    var data = {
+        Bucket: 'fieldhistory',
+        Key: 'fh-'+datetime+'.json',
+        Body: buf,
+        ContentEncoding: 'base64',
+        ContentType: 'application/json',
+        ACL: 'public-read'
+    };
+    
+    s3.upload(data, function (err, data) {
+        if (err) {
+            console.log(err);
+            console.log('Error uploading data: ', data);
+            res.json({"status" :"failed"});
+        } else {
+            console.log('succesfully uploaded!!!');
+            res.json({"status" :"success"});
+        }
+    });
 })
 app.get('/deploy', async (req, res) => {      
     const conn = new jsforce.Connection({
@@ -95,9 +290,9 @@ app.get('/deploy', async (req, res) => {
         result_ran += characters.charAt(Math.floor(Math.random() * charactersLength));
         counter += 1;
         }
-        let finalObjName = req.query.objectName.toLocaleLowerCase().includes('__c') ? req.query.objectName.toLocaleLowerCase().replaceAll('__c','').replace('ctms__','') : req.query.objectName;
-        finalObjName= (finalObjName.length > 15) ? finalObjName.substring(0,15)+result_ran :finalObjName+result_ran;
-
+        //let finalObjName = req.query.objectName.toLocaleLowerCase().includes('__c') ? req.query.objectName.toLocaleLowerCase().replaceAll('__c','').replace('ctms__','') : req.query.objectName;
+        //finalObjName= (finalObjName.length > 15) ? finalObjName.substring(0,15)+result_ran :finalObjName+result_ran;
+        let finalObjName  = req.query.triggerName;
         txt_file = txt_file.replace('TriggerName',finalObjName+'Audit_Trigger');
         txt_file = txt_file.replaceAll('sobject',req.query.objectName);
         console.log('txt_file::',txt_file);
@@ -625,6 +820,7 @@ app.get('/deploy', async (req, res) => {
         //we have to reorder the test class object instances..
         //get the object instances with no dependencies.
         let finalFinalArray1 = level_0_testClsTxt.concat(level_1_testClsTxt,level_2_testClsTxt, level_3_testClsTxt,level_4_testClsTxt,level_5_testClsTxt,level_6_testClsTxt,level_7_testClsTxt,level_8_testClsTxt,level_9_testClsTxt,level_10_testClsTxt);
+        //let finalFinalArray1 = level_1_testClsTxt.concat(level_2_testClsTxt, level_3_testClsTxt,level_4_testClsTxt,level_5_testClsTxt,level_6_testClsTxt,level_7_testClsTxt,level_8_testClsTxt,level_9_testClsTxt,level_10_testClsTxt);
         
         let finalFinalArray = service.reorderTstClsData(finalFinalArray1,fs);
         
@@ -671,16 +867,20 @@ app.get('/deploy', async (req, res) => {
             console.log('Deployment completed successfully!');
             const directory1 = "./components/classes";
             const directory2 = "./components/triggers";
+            const directory3 = "./temp1.json";
             fsExtra.emptyDirSync(directory1);
             fsExtra.emptyDirSync(directory2);
+            fsExtra.unlinkSync(directory3);
             //res.sendFile('index.html', {root: __dirname});  
             //res.render(__dirname + "index.html", {status:deploymentStatus, message :message});
             res.json({status:deploymentStatus});
         } else {
             const directory1 = "./components/classes";
             const directory2 = "./components/triggers";
+            const directory3 = "./temp1.json";
             fsExtra.emptyDirSync(directory1);
             fsExtra.emptyDirSync(directory2);
+            fsExtra.unlinkSync(directory3);
             console.error('Deployment failed');
             //res.sendFile('index.html', {root: __dirname});  
             //res.render(__dirname + "index.html", {status:deploymentStatus, message :message});

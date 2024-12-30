@@ -161,7 +161,7 @@ module.exports = {
             for(let field of res.fields){
                 if(field.updateable == true)
                 {
-                    if(field.createable && field.name != 'OwnerId' && field.name !='CTMS__eDOA_Completion__c' && field.name !='RecordTypeId' && !field.name.includes('__pc')){
+                    if(field.type != 'reference' && field.createable && field.name != 'OwnerId' && field.name !='CTMS__eDOA_Completion__c' && field.name !='RecordTypeId' && !field.name.includes('__pc')){
                         let obj={}
                         obj['API'] = field.name;
                         obj['Type'] = field.type;
@@ -172,11 +172,173 @@ module.exports = {
                                 if(!(field.referenceTo.includes("CTMS__Study_Team__c")))
                                     fieldsArr.push(obj);
                             }
+                            else if(sobject =='CTMS__Randomization__c'){
+                                if(field.name !="CTMS__Random_Seed__c")
+                                    fieldsArr.push(obj);
+                            }
+                            else if (sobject=='CTMS__Study_Monitoring__c'){
+                                if(field.name !="CTMS__Site_Visit__c" && field.name !='eTMF_Folder__c')
+                                    fieldsArr.push(obj);
+                            }
+                            else if(sobject=='CTMS__Trip_Report_Template__c'){
+                                if(field.name !="Master_Trip_Report_Template__c")
+                                    fieldsArr.push(obj);
+                            }
+                            else if(sobject=='CTMS__eTMF_Artifact__c'){
+                                if(field.name !='CTMS__Folder__c')
+                                    fieldsArr.push(obj);
+                            }
                             else{
                                 fieldsArr.push(obj);
                             }
                         }
                     }
+                    if( field.type == 'reference'){
+                        if(sobject  =='CTMS__Action__c' && field.name =='CTMS__Rule__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Action_Dependency__c' && field.name =='CTMS__Action__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Data_Matrix_Column__c' && field.name =='CTMS__Data_Matrix__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Form_Library_Content__c' && field.name =='CTMS__Form_Library__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Form_Library_Data_Variable__c' && field.name =='CTMS__Form_Library_Content__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Form_Library_Dependency__c' && field.name =='CTMS__Form_Library_Content__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Form_Template_Content__c' && field.name =='CTMS__Form_Template__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Form_Template_Content_Dependency__c' && field.name =='CTMS__Form_Template_Content__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Form_Template_Data_Variable__c' && field.name =='CTMS__Form_Template_Content__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Form_Template_Version__c' && field.name =='CTMS__Form_Template__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Response_Set_Value__c' && field.name =='CTMS__Standard_Response_Set__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Role_Form_Field_Permission__c' && field.name =='CTMS__Role_Setup_Permission__c'){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Role_Form_Permission__c' && (field.name =='CTMS__Role_Setup_Permission__c'|| field.name=='CTMS__Form_Template__c')){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Role_Setup_Permission__c' && (field.name =='CTMS__Role__c')){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Study_Setup__c' && (field.name =='CTMS__Clinical_Study__c')){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Study_Team__c' && (field.name =='CTMS__Role__c')){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Subject__c' && (field.name =='CTMS__Site__c')){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                        if(sobject  =='CTMS__Subject_Stratification_Factor__c' && (field.name =='CTMS__Site__c')){
+                            let obj={}
+                            obj['API'] = field.name;
+                            obj['Type'] = field.type;
+                            obj['Lable'] = field.label;
+                            obj['ObjAPI'] = field.referenceTo;
+                            fieldsArr.push(obj);
+                        }
+                    } 
                 }
                 else{
                     if(field.nillable == false && field.createable && field.name != 'OwnerId' && field.name !='CTMS__eDOA_Completion__c' && field.name !='RecordTypeId' && !field.name.includes('__pc')){
@@ -270,6 +432,11 @@ module.exports = {
                             let dateStr = rec[key].split('-');
                             console.log('dateStr::',dateStr);
                             temp = instVar+'.'+key +' = Date.newInstance('+dateStr[0] +',' +dateStr[1]+','+dateStr[2]+');\n';
+                        }
+                        else if(fieldData[0]['Type'] == 'time'){
+                            let timeStr = rec[key].replaceAll('.000Z','').split(':');
+                            console.log('timeStr::',timeStr);
+                            temp = instVar+'.'+key +' = Time.newInstance('+timeStr[0] +',' +timeStr[1]+','+timeStr[2]+','+0+');\n';
                         }
                         else if(fieldData[0]['Type'] == 'phone'){
                             let phoneStr = rec[key].replace('(','').replace(')','').replace('-','').replace(' ','');
@@ -416,6 +583,205 @@ module.exports = {
             }
         }
         fs.appendFileSync('./temp1.json', '\n299::'+'---------non_2_dependency--------'+ '\n'+ JSON.stringify(non_2_dependency));
+        let non_2_dependency_Remain=[];
+        if(non_2_dependency && non_2_dependency.length >0){
+            dependency_0_vars = dependency_0.map(x=>x['var']+'.Id');
+            fs.appendFileSync('./temp1.json', '\n348::'+'---------dependency_0_vars--------'+ '\n'+ JSON.stringify(dependency_0_vars));
+        
+            for(let arr of non_2_dependency){
+                console.log('arr[\'vars\']::',arr['vars']);
+                let count =0;
+                for(let var1 of arr['vars']){
+                    if(dependency_0_vars.includes(var1)){
+                        count++;
+                    }
+                }
+                if(count == arr['vars'].length){
+                    dependency_0.push(arr);
+                }
+                else{
+                    non_2_dependency_Remain.push(arr);
+                }
+            }
+        }
+        fs.appendFileSync('./temp1.json', '\n299::'+'---------non_2_dependency_Remain--------'+ '\n'+ JSON.stringify(non_2_dependency_Remain));
+        let non_3_dependency=[];
+        if(non_2_dependency_Remain && non_2_dependency_Remain.length >0){
+            dependency_0_vars = dependency_0.map(x=>x['var']+'.Id');
+            fs.appendFileSync('./temp1.json', '\n348::'+'---------dependency_0_vars--------'+ '\n'+ JSON.stringify(dependency_0_vars));
+        
+            for(let arr of non_2_dependency_Remain){
+                console.log('arr[\'vars\']::',arr['vars']);
+                let count =0;
+                for(let var1 of arr['vars']){
+                    if(dependency_0_vars.includes(var1)){
+                        count++;
+                    }
+                }
+                if(count == arr['vars'].length){
+                    dependency_0.push(arr);
+                }
+                else{
+                    non_3_dependency.push(arr);
+                }
+            }
+        }
+        fs.appendFileSync('./temp1.json', '\n299::'+'---------non_3_dependency-------'+ '\n'+ JSON.stringify(non_3_dependency));
+        let non_3_dependency_Remain=[];
+        if(non_3_dependency && non_3_dependency.length >0){
+            dependency_0_vars = dependency_0.map(x=>x['var']+'.Id');
+            fs.appendFileSync('./temp1.json', '\n348::'+'---------dependency_0_vars--------'+ '\n'+ JSON.stringify(dependency_0_vars));
+        
+            for(let arr of non_3_dependency){
+                console.log('arr[\'vars\']::',arr['vars']);
+                let count =0;
+                for(let var1 of arr['vars']){
+                    if(dependency_0_vars.includes(var1)){
+                        count++;
+                    }
+                }
+                if(count == arr['vars'].length){
+                    dependency_0.push(arr);
+                }
+                else{
+                    non_3_dependency_Remain.push(arr);
+                }
+            }
+        }
+        fs.appendFileSync('./temp1.json', '\n299::'+'---------non_3_dependency_Remain-------'+ '\n'+ JSON.stringify(non_3_dependency_Remain));
+        let non_4_dependency=[];
+        if(non_3_dependency_Remain && non_3_dependency_Remain.length >0){
+            dependency_0_vars = dependency_0.map(x=>x['var']+'.Id');
+            fs.appendFileSync('./temp1.json', '\n348::'+'---------dependency_0_vars--------'+ '\n'+ JSON.stringify(dependency_0_vars));
+        
+            for(let arr of non_3_dependency_Remain){
+                console.log('arr[\'vars\']::',arr['vars']);
+                let count =0;
+                for(let var1 of arr['vars']){
+                    if(dependency_0_vars.includes(var1)){
+                        count++;
+                    }
+                }
+                if(count == arr['vars'].length){
+                    dependency_0.push(arr);
+                }
+                else{
+                    non_4_dependency.push(arr);
+                }
+            }
+        }
+        fs.appendFileSync('./temp1.json', '\n299::'+'---------non_4_dependency-------'+ '\n'+ JSON.stringify(non_4_dependency));
+        let non_4_dependency_Remain=[];
+        if(non_4_dependency && non_4_dependency.length >0){
+            dependency_0_vars = dependency_0.map(x=>x['var']+'.Id');
+            fs.appendFileSync('./temp1.json', '\n348::'+'---------dependency_0_vars--------'+ '\n'+ JSON.stringify(dependency_0_vars));
+        
+            for(let arr of non_4_dependency){
+                console.log('arr[\'vars\']::',arr['vars']);
+                let count =0;
+                for(let var1 of arr['vars']){
+                    if(dependency_0_vars.includes(var1)){
+                        count++;
+                    }
+                }
+                if(count == arr['vars'].length){
+                    dependency_0.push(arr);
+                }
+                else{
+                    non_4_dependency_Remain.push(arr);
+                }
+            }
+        }
+        fs.appendFileSync('./temp1.json', '\n299::'+'---------non_4_dependency_Remain-------'+ '\n'+ JSON.stringify(non_4_dependency_Remain));
+        let non_5_dependency=[];
+        if(non_4_dependency_Remain && non_4_dependency_Remain.length >0){
+            dependency_0_vars = dependency_0.map(x=>x['var']+'.Id');
+            fs.appendFileSync('./temp1.json', '\n348::'+'---------dependency_0_vars--------'+ '\n'+ JSON.stringify(dependency_0_vars));
+        
+            for(let arr of non_4_dependency_Remain){
+                console.log('arr[\'vars\']::',arr['vars']);
+                let count =0;
+                for(let var1 of arr['vars']){
+                    if(dependency_0_vars.includes(var1)){
+                        count++;
+                    }
+                }
+                if(count == arr['vars'].length){
+                    dependency_0.push(arr);
+                }
+                else{
+                    non_5_dependency.push(arr);
+                }
+            }
+        }
+        fs.appendFileSync('./temp1.json', '\n299::'+'---------non_5_dependency-------'+ '\n'+ JSON.stringify(non_5_dependency));
+        let non_5_dependency_remain=[];
+        if(non_5_dependency && non_5_dependency.length >0){
+            dependency_0_vars = dependency_0.map(x=>x['var']+'.Id');
+            fs.appendFileSync('./temp1.json', '\n348::'+'---------dependency_0_vars--------'+ '\n'+ JSON.stringify(dependency_0_vars));
+        
+            for(let arr of non_5_dependency){
+                console.log('arr[\'vars\']::',arr['vars']);
+                let count =0;
+                for(let var1 of arr['vars']){
+                    if(dependency_0_vars.includes(var1)){
+                        count++;
+                    }
+                }
+                if(count == arr['vars'].length){
+                    dependency_0.push(arr);
+                }
+                else{
+                    non_5_dependency_remain.push(arr);
+                }
+            }
+        }
+        fs.appendFileSync('./temp1.json', '\n299::'+'---------non_5_dependency_remain-------'+ '\n'+ JSON.stringify(non_5_dependency_remain));
+        let non_6_dependency=[];
+        if(non_5_dependency_remain && non_5_dependency_remain.length >0){
+            dependency_0_vars = dependency_0.map(x=>x['var']+'.Id');
+            fs.appendFileSync('./temp1.json', '\n348::'+'---------dependency_0_vars--------'+ '\n'+ JSON.stringify(dependency_0_vars));
+        
+            for(let arr of non_5_dependency_remain){
+                console.log('arr[\'vars\']::',arr['vars']);
+                let count =0;
+                for(let var1 of arr['vars']){
+                    if(dependency_0_vars.includes(var1)){
+                        count++;
+                    }
+                }
+                if(count == arr['vars'].length){
+                    dependency_0.push(arr);
+                }
+                else{
+                    non_6_dependency.push(arr);
+                }
+            }
+        }
+        fs.appendFileSync('./temp1.json', '\n299::'+'---------non_6_dependency-------'+ '\n'+ JSON.stringify(non_6_dependency));
+        
+        let non_6_dependency_remain=[];
+        if(non_6_dependency && non_6_dependency.length >0){
+            dependency_0_vars = dependency_0.map(x=>x['var']+'.Id');
+            fs.appendFileSync('./temp1.json', '\n348::'+'---------dependency_0_vars--------'+ '\n'+ JSON.stringify(dependency_0_vars));
+        
+            for(let arr of non_6_dependency){
+                console.log('arr[\'vars\']::',arr['vars']);
+                let count =0;
+                for(let var1 of arr['vars']){
+                    if(dependency_0_vars.includes(var1)){
+                        count++;
+                    }
+                }
+                if(count == arr['vars'].length){
+                    dependency_0.push(arr);
+                }
+                else{
+                    non_6_dependency_remain.push(arr);
+                }
+            }
+        }
+        fs.appendFileSync('./temp1.json', '\n299::'+'---------non_6_dependency_remain-------'+ '\n'+ JSON.stringify(non_6_dependency_remain));
         
         fs.appendFileSync('./temp1.json', '\n299::'+'---------seq_depends--------'+ '\n'+ JSON.stringify(dependency_0));
         
