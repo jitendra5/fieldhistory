@@ -10,10 +10,15 @@ trigger TriggerName on sobject (after insert,after update) {
         for(String fld : fieldLst)
         {
         if(Trigger.isAfter){
-            if(Trigger.isInsert || (Trigger.isUpdate && Trigger.oldMap.get( a.Id ).get(fld) != Trigger.newMap.get( a.Id ).get(fld)) )
+            if(Trigger.isInsert )
             {
                     //post field change to external system
-                    //AuditHistoryCtrl.captureFieldChange('sobject','fieldName','fieldvalue'); 
+                    AuditHistoryCtrl.captureFieldChange('sobject',fld,null,(String) Trigger.newMap.get( a.Id ).get(fld)); 
+            }
+            if((Trigger.isUpdate && Trigger.oldMap.get( a.Id ).get(fld) != Trigger.newMap.get( a.Id ).get(fld)) )
+            {
+                    //post field change to external system
+                    AuditHistoryCtrl.captureFieldChange('sobject',fld,(String) Trigger.oldMap.get( a.Id ).get(fld),(String) Trigger.newMap.get( a.Id ).get(fld)); 
             }
         }
         }
