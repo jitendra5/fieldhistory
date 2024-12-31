@@ -28,6 +28,7 @@ app.get('/test', async (req, res) => {
     let access_token = JSON.parse(tokenData['body'])['access_token'];
     console.log('instanceUrl::',instanceUrl);
     console.log('access_token::',access_token);
+    let sobject = req.query.sobject || 'Account';
     const conn = new jsforce.Connection({
         instanceUrl : instanceUrl,
         accessToken : access_token,
