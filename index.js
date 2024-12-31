@@ -291,9 +291,9 @@ app.get('/deploy', async (req, res) => {
         result_ran += characters.charAt(Math.floor(Math.random() * charactersLength));
         counter += 1;
         }
-        //let finalObjName = req.query.objectName.toLocaleLowerCase().includes('__c') ? req.query.objectName.toLocaleLowerCase().replaceAll('__c','').replace('ctms__','') : req.query.objectName;
-        //finalObjName= (finalObjName.length > 15) ? finalObjName.substring(0,15)+result_ran :finalObjName+result_ran;
-        let finalObjName  = req.query.triggerName;
+        let finalObjName = req.query.objectName.toLocaleLowerCase().includes('__c') ? req.query.objectName.toLocaleLowerCase().replaceAll('__c','').replace('ctms__','') : req.query.objectName;
+        finalObjName= (finalObjName.length > 15) ? finalObjName.substring(0,15)+result_ran :finalObjName+result_ran;
+        //let finalObjName  = req.query.triggerName;
         txt_file = txt_file.replace('TriggerName',finalObjName+'Audit_Trigger');
         txt_file = txt_file.replaceAll('sobject',req.query.objectName);
         console.log('txt_file::',txt_file);
